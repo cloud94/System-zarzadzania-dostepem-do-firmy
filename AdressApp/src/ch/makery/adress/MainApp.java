@@ -1,6 +1,7 @@
 package ch.makery.adress;
 
 import java.io.IOException;
+//import java.sql.*;
 import javafx.collections.FXCollections;
 import ch.makery.adress.view.*;
 import ch.makery.adress.model.Osoba;
@@ -30,6 +31,10 @@ public class MainApp extends Application {
     
     public MainApp() {
         // Add some sample data
+    	
+//    	DBConnect connect = new DBConnect();
+//    	connect.pobierzDane();
+    	
         personData.add(new Osoba("Jan", "Kowalski"));
         personData.add(new Osoba("Adam", "Małysz"));
         personData.add(new Osoba("Mateusz", "Kowalski"));
@@ -39,6 +44,23 @@ public class MainApp extends Application {
         personData.add(new Osoba("Mariusz", "Kowal"));
         personData.add(new Osoba("Stefan", "Będzki"));
         personData.add(new Osoba("Robert", "Kubica"));
+//        try{
+//			String zapytanie = "select * from pracownicy";
+//			
+//			rs = st.executeQuery(zapytanie);
+//			System.out.println("Rekordy bazy danych: ");
+//			while(rs.next()){
+//				String imie = rs.getString("imie");
+//				String nazwisko = rs.getString("nazwisko");
+//				int numer = rs.getInt(3);
+//				String kod = rs.getString("kod_karty");
+//				System.out.println("Imię: "+imie +" Nazwisko: "+nazwisko
+//						+" Nr pracownika: "+numer+" Kod karty: "+kod);
+//			}
+//		}catch(Exception e)
+//		{
+//			System.out.println(e);
+//		}
     }
     
     public ObservableList<Osoba> getPersonData() {
@@ -88,6 +110,8 @@ public class MainApp extends Application {
     }
 
     public static void main(String[] args) {
+    	DBConnect polaczenie = new DBConnect();
+    	polaczenie.pobierzDane();
         launch(args);
     }
 }
