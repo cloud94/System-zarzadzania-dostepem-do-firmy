@@ -1,8 +1,11 @@
 package ch.makery.adress;
 
 import java.io.IOException;
-
+import javafx.collections.FXCollections;
+import ch.makery.adress.view.*;
+import ch.makery.adress.model.Osoba;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -13,6 +16,7 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
+    private ObservableList<Osoba> personData = FXCollections.observableArrayList();
 
     @Override
     public void start(Stage primaryStage) {
@@ -22,6 +26,23 @@ public class MainApp extends Application {
         initRootLayout();
 
         showPersonOverview();
+    }
+    
+    public MainApp() {
+        // Add some sample data
+        personData.add(new Osoba("Jan", "Kowalski"));
+        personData.add(new Osoba("Adam", "Małysz"));
+        personData.add(new Osoba("Mateusz", "Kowalski"));
+        personData.add(new Osoba("Adam", "Psikuta"));
+        personData.add(new Osoba("Jan", "Muzykant"));
+        personData.add(new Osoba("Adrian", "Nowak"));
+        personData.add(new Osoba("Mariusz", "Kowal"));
+        personData.add(new Osoba("Stefan", "Będzki"));
+        personData.add(new Osoba("Robert", "Kubica"));
+    }
+    
+    public ObservableList<Osoba> getPersonData() {
+        return personData;
     }
 
 // funkcja inicjalizuje widok podstawowy
@@ -44,14 +65,19 @@ public class MainApp extends Application {
 // pokazuje widok informacji wewnatrz "RootLayout"
     public void showPersonOverview() {
         try {
-
+            // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("view/Informacje.fxml"));
             AnchorPane personOverview = (AnchorPane) loader.load();
 
-
+            // Set person overview into the center of root layout.
             rootLayout.setCenter(personOverview);
-        } catch (IOException e) {
+
+            // Give the controller access to the main app.
+            OsobaOverviewController controller = loader.getController();
+            controller.setMainApp(this);
+
+       } catch (IOException e) {
             e.printStackTrace();
         }
     }
