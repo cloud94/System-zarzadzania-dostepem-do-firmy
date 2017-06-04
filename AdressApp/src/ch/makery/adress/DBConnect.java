@@ -1,12 +1,17 @@
 package ch.makery.adress;
 
 import java.sql.*;
+import ch.makery.adress.MainApp;
+import ch.makery.adress.model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class DBConnect {
 
 	private Connection con;
-	private Statement st;
-	private ResultSet rs;
+	public Statement st;
+	public ResultSet rs;
+	private ObservableList<Osoba> listaOsob;
 	
 	public DBConnect()
 	{
@@ -20,32 +25,5 @@ public class DBConnect {
 			System.out.println(e);
 		}
 	}
-	
-	public void pobierzDane()
-	{
-		try{
-			String zapytanie = "select * from pracownicy";
-			rs = st.executeQuery(zapytanie);
-			System.out.println("Rekordy bazy danych: ");
-			while(rs.next()){
-				String imie = rs.getString("imie");
-				String nazwisko = rs.getString("nazwisko");
-				int numer = rs.getInt(3);
-				String kod = rs.getString("kod_karty");
-				System.out.println("Imię: "+imie +", Nazwisko: "+nazwisko
-						+", Nr pracownika: "+numer+", Kod karty: "+kod);
-			}
-		}catch(Exception e)
-		{
-			System.out.println(e);
-		}
-	}
-	
-//	public String pobierzImie()
-//	{
-//		try{
-//			String zapytanie = "select * from pracownicy";
-//		}
-//	}
 	
 }

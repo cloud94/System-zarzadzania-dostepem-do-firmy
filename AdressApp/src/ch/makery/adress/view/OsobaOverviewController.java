@@ -58,7 +58,21 @@ public class OsobaOverviewController {
     private void usunOsobe(){
     	int wybor = osobaTable.getSelectionModel().getSelectedIndex();
     	if(wybor>=0)
+    	{
+    		try{
+    			Osoba os = osobaTable.getSelectionModel().getSelectedItem();
+        		
+        		DBConnect pol = new DBConnect();
+        		String zapytanie = "DELETE FROM pracownicy WHERE nr_pracownika="+
+        		os.getNrPracownika();
+        		//System.out.println(zapytanie);
+        		pol.st.executeUpdate(zapytanie);
+    		}catch(Exception e){
+    			System.out.println(e);
+    		};
+    		
     		osobaTable.getItems().remove(wybor);
+    	}
     	else
     	{
     		// nic nie zaznaczono
@@ -101,6 +115,44 @@ public class OsobaOverviewController {
     		nr_pracownika.setText("Brak info");
     		kod_karty.setText("Brak info");
     	}
+    }
+    
+    /**
+     * Called when the user clicks the new button. Opens a dialog to edit
+     * details for a new person.
+     */
+    @FXML
+    private void handleNewPerson() {
+        Osoba tempPerson = new Osoba();
+        boolean okClicked = mainApp.showPersonEditDialog(tempPerson);
+        if (okClicked) {
+            mainApp.getPersonData().add(tempPerson);
+        }
+    }
+
+    /**
+     * Called when the user clicks the edit button. Opens a dialog to edit
+     * details for the selected person.
+     */
+    @FXML
+    private void handleEditPerson() {
+        Osoba selectedPerson = osobaTable.getSelectionModel().getSelectedItem();
+        if (selectedPerson != null) {
+            boolean okClicked = mainApp.showPersonEditDialog(selectedPerson);
+            if (okClicked) {
+                showOsobaDetails(selectedPerson);
+            }
+
+        } else {
+            // Nothing selected.
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("Brak wyboru");
+            alert.setHeaderText("Nie zaznaczono pracownika");
+            alert.setContentText("Proszę wybrać osobę z tabeli");
+
+            alert.showAndWait();
+        }
     }
 
 }

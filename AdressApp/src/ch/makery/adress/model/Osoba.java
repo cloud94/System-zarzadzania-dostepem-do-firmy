@@ -26,7 +26,7 @@ public class Osoba {
         this.nazwisko = new SimpleStringProperty(naz);
 
         // domyslne dane do testow
-        this.nr_pracownika = new SimpleIntegerProperty(1234);
+        this.nr_pracownika = new SimpleIntegerProperty();
         this.kod_karty = new SimpleStringProperty("kod");
     }
 
